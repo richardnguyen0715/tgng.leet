@@ -15,7 +15,7 @@ class NumArray:
 		Space Comp: O(n)
 		Time Comp: O(n)
 		"""
-		self.pool = 0
+		self.pool = [0]
 		for v in nums:
 			self.pool.append(self.pool[-1] + v)
 		
