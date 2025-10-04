@@ -1,50 +1,33 @@
 def threeSum(nums):
-    nums.sort()
-    n = len(nums)
-    for i in range(len(nums)):
-        if nums[i] >= 0:
-            first_positive = i
-            break
-    positive = first_positive
-    negative = positive - 1
-    final_res = []
-    while negative >= 0 and positive <= n - 1:
-        res_arr = []
-        res_sum = nums[positive] + nums[negative]
-        res_arr.append(nums[positive])
-        res_arr.append(nums[negative])
-        print(negative, ":", positive)
-        if res_sum > 0 and negative > 0:
-            res_sum += nums[negative - 1]
-            if res_sum == 0:
-                res_arr.append(nums[negative - 1])
-                final_res.append(res_arr)
-        elif res_sum < 0 and positive < n - 1:
-            res_sum += nums[positive + 1]
-            if res_sum == 0:
-                res_arr.append(nums[positive + 1])
-                final_res.append(res_arr)
-        pos_temp = positive
-        neg_temp = negative
-        if pos_temp == n - 1 and neg_temp == 0:
-            break
-        while True:
-            if pos_temp < n - 1:
-                pos_temp += 1
-                if nums[positive] != nums[pos_temp]:
-                    break
-            if neg_temp > 0:
-                neg_temp -= 1
-                if nums[negative] != nums[neg_temp]:
-                    break
-            if neg_temp == 0:
-                break
-        positive = pos_temp
-        negative = neg_temp
-        print(negative, ":", positive)
-        print("---------------------")
-        
-    return final_res
+        nums.sort()
+        res = []
+        n = len(nums)
+
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue  # skip duplicate a
+
+            l, r = i + 1, n - 1
+            while l < r:
+                total = nums[i] + nums[l] + nums[r]
+                if total == 0:
+                    res.append([nums[i], nums[l], nums[r]])
+
+                    # skip duplicate b
+                    while l < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    # skip duplicate c
+                    while l < r and nums[r] == nums[r - 1]:
+                        r -= 1
+
+                    l += 1
+                    r -= 1
+                elif total < 0:
+                    l += 1
+                else:
+                    r -= 1
+
+        return res
 
 if __name__ == "__main__":
     nums = [-1,0,1,2,-1,-4, 2]
