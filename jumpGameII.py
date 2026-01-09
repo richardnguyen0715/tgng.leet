@@ -120,3 +120,23 @@ class Solution:
 
 
         return -1  # Không thể reach được
+    
+    
+    
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        
+        count = 0
+        max_reach = 0
+        curr_pos = 0
+
+        for i in range(len(nums) - 1): # Loại bỏ phần tử cuối cùng ra do không cần thiết
+            step = nums[i]
+            max_next_step = i + step
+            max_reach = max(max_reach, max_next_step)
+
+            if i == curr_pos: # Tức là đã đi tới bước max reach hiện tại rồi
+                curr_pos = max_reach
+                count += 1
+
+        return count
