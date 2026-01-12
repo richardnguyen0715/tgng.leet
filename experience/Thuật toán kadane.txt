@@ -1,0 +1,118 @@
+- Tổng quan
+    + Thuật toán Kadane là một thuật toán hiệu quả để tìm tổng lớn nhất của dãy con liên tiếp trong một mảng số nguyên. Thuật toán có độ phức tạp thời gian O(n) và không gian O(1).
+- Ý tưởng cốt lõi
+    + Nguyên lý
+        * Duyệt qua mảng từ trái sang phải
+        * Tại mỗi vị trí, quyết định: mở rộng dãy con hiện tại hay bắt đầu dãy con mới
+        * Luôn theo dõi tổng lớn nhất tìm được cho đến thời điểm hiện tại
+- Quy tắc quyết định
+    + Tại vị trí i, ta có hai lựa chọn:
+    + Mở rộng: current_sum + arr[i]
+    + Bắt đầu mới: arr[i]
+    + Chọn giá trị lớn hơn: max(current_sum + arr[i], arr[i])
+
+
+---
+
+
+def kadane_algorithm(arr):
+    if not arr:
+        return 0
+    
+    max_sum = arr[0]        # Tổng lớn nhất tìm được
+    current_sum = arr[0]    # Tổng của dãy con kết thúc tại vị trí hiện tại
+    
+    for i in range(1, len(arr)):
+        # Quyết định: mở rộng hay bắt đầu mới
+        current_sum = max(arr[i], current_sum + arr[i])
+        # Cập nhật tổng lớn nhất
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+
+def kadane_with_positions(arr):
+    if not arr:
+        return 0, -1, -1
+    
+    max_sum = arr[0]
+    current_sum = arr[0]
+    
+    start = 0          # Vị trí bắt đầu của dãy con tối ưu
+    end = 0            # Vị trí kết thúc của dãy con tối ưu
+    temp_start = 0     # Vị trí bắt đầu tạm thời
+    
+    for i in range(1, len(arr)):
+        if current_sum < 0:
+            current_sum = arr[i]
+            temp_start = i
+        else:
+            current_sum += arr[i]
+        
+        if current_sum > max_sum:
+            max_sum = current_sum
+            start = temp_start
+            end = i
+    
+    return max_sum, start, end
+
+
+---
+
+Các biến thể của thuật toán:
+
+def kadane_2d(matrix):
+    rows, cols = len(matrix), len(matrix[0])
+    max_sum = float('-inf')
+    
+    for top in range(rows):
+        temp = [0] * cols
+        for bottom in range(top, rows):
+            # Cộng dồn các hàng
+            for j in range(cols):
+                temp[j] += matrix[bottom][j]
+            
+            # Áp dụng Kadane 1D
+            current_sum = kadane_algorithm(temp)
+            max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+
+
+def kadane_circular(arr):
+    # Trường hợp 1: Dãy con không vòng tròn
+    max_kadane = kadane_algorithm(arr)
+    
+    # Trường hợp 2: Dãy con vòng tròn
+    total_sum = sum(arr)
+    # Tìm tổng nhỏ nhất của dãy con (đảo dấu)
+    inverted_arr = [-x for x in arr]
+    max_inverted = kadane_algorithm(inverted_arr)
+    max_circular = total_sum + max_inverted
+    
+    # Trường hợp đặc biệt: tất cả số âm
+    if max_circular == 0:
+        return max_kadane
+    
+    return max(max_kadane, max_circular)
+
+
+---
+
+- Ứng dụng thực tế
+1. Phân tích tài chính
+    + Tìm khoảng thời gian có lợi nhuận cao nhất
+    + Phân tích xu hướng giá cổ phiếu
+2. Xử lý tín hiệu
+    + Tìm đoạn tín hiệu có năng lượng cao nhất
+    + Phát hiện anomaly trong dữ liệu
+3. Sinh học tính toán
+    + Tìm vùng DNA có điểm số cao nhất
+    + Phân tích chuỗi protein
+4. Độ phức tạp
+    + Thời gian: O(n) - duyệt mảng một lần
+    + Không gian: O(1) - chỉ sử dụng biến phụ
+5. Lưu ý quan trọng:
+    + Thuật toán xử lý tốt mảng có cả số dương và âm
+    + Với mảng toàn số âm, trả về phần tử lớn nhất
+    + Có thể mở rộng cho bài toán 2D và mảng vòng tròn
+    + Là ví dụ điển hình của kỹ thuật Dynamic Programming
