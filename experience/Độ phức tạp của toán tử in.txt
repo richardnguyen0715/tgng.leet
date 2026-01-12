@@ -1,0 +1,6 @@
+- Độ phức tạp của toán tử in trong python phụ thuộc vào kiểu dữ liệu của đối tượng sử dụng:
+    + set, dictionary -> O(1) (avg) - trong trường hợp collision nhiều thì là O(N)
+    + list, tuple -> O(N) - luôn luôn
+    + string -> O(N * M) trong đó N là độ dài string gốc, m là độ dài substring cần tìm
+
+-> Để tối ưu thời gian thì ta sử dụng set hoặc dictionary sẽ nhanh nhất
