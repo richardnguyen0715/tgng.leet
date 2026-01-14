@@ -1,0 +1,9 @@
+- hàm convert từ string qua set có độ phức tạp thời gian là O(N)
+    E.g: list_a = [1, 2, 3]
+        -> set_a = set(list_a) # O(N) time complexity
+
+- Hàm convert từ số nguyên sang chuỗi nhị phân có độ phức tạp là O(logN) hoặc O(K) trong đó K là số bit.
+    E.g: int_a = 10
+        -> bin_a = bin(int_a) = "0b1010" -> bin_a[2:] = "1010"
+
+- Hàm convert từ string sang số nguyên có độ phức tạp là O(1)
