@@ -14,6 +14,27 @@ class Solution:
         return max_len
     
     
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        # Time: O(n^2)
+        # Space: O(128)
+        
+        n = len(s)
+        res = 0
+        for i in range(n):
+            seen = set()
+            for j in range(i ,n):
+                if s[j] in seen:
+                    break
+                else:
+                    res = max(res, j - i + 1)
+                    seen.add(s[j])
+                    
+        return res
+    
+    
     
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
@@ -54,3 +75,27 @@ class Solution:
 
 
                 
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        # O(N) time
+        # O(128) space
+        
+        n = len(s)
+        res = 0
+
+        seen = set()
+        left = 0
+        for right in range(n):
+            c = s[right]
+
+            while c in seen:
+                
+                if s[left] in seen:
+                    seen.remove(s[left])
+                left += 1
+
+            res = max(res, right - left + 1)
+            seen.add(c)
+        
+        return res
