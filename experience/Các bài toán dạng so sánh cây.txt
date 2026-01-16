@@ -1,0 +1,19 @@
+- Base case là node lá.
+- Return lại so sánh nhánh trái và nhánh phải.
+
+
+def sameTree(p, q):
+
+    if p is None and q is None:
+        return True
+
+    if p is None or q is None:
+        return False
+
+    if p.val == q.val and sameTree(p.left, q.left) and sameTree(p.right, q.right)
+        return True
+    
+    return False
+
+
+sameTree(p, q)
