@@ -1,0 +1,11 @@
+- Ta nên add interval mới vào danh sách đã có
+- Sau đó sort intervals
+- Khi đó ta chỉ cần lấy ra phần tử cuối cùng của merged rồi so sánh với phần tử trong intervals hiện có
+- Nếu overlap thì chỉ cần lấy max của phần tử đang xét với phần tử cuối cùng. Ngược lại thì add cả đoạn.
+       
+        last = merged[-1]
+
+        if start <= last[1] -> Overlapped:
+            last[1] = max(last[1], end)
+        else:
+            merged.append([start, end])
