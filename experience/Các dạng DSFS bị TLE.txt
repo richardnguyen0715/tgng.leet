@@ -1,0 +1,68 @@
+- DFS với backtracking có độ phức tạp O(2^(m+n)) - exponential time, rất chậm với grid lớn.
+- Phương pháp thay thế: - Sử dụng Dynamic Programming (Quy hoạch động) ; Dijkstra ; A* ; ...
+
+Ví dụ:
+
+def minPathSum(self, grid: List[List[int]]) -> int:
+    m, n = len(grid), len(grid[0])
+    
+    # Tạo DP table
+    dp = [[0] * n for _ in range(m)]
+    
+    # Base case
+    dp[0][0] = grid[0][0]
+    
+    # Fill first row
+    for j in range(1, n):
+        dp[0][j] = dp[0][j-1] + grid[0][j]
+    
+    # Fill first column  
+    for i in range(1, m):
+        dp[i][0] = dp[i-1][0] + grid[i][0]
+    
+    # Fill rest of table
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
+    
+    return dp[m-1][n-1]
+
+Với ví dụ này thì bài toán con sẽ là: minimum path sum từ (0,0) đến (i,j); chính là là dp[i][j].
+Khi đó: dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
+- Base case:
+    dp[0][0] = grid[0][0]  # Điểm bắt đầu
+
+    # Hàng đầu tiên (chỉ có thể đi từ trái sang)
+    dp[0][j] = dp[0][j-1] + grid[0][j]
+
+    # Cột đầu tiên (chỉ có thể đi từ trên xuống)  
+    dp[i][0] = dp[i-1][0] + grid[i][0]
+
+---
+
+Điều kiện cần:
+    - Có thể chia nhỏ thành các bài toán con
+    - Các bài toán con có thể được tính toán nhiều lần
+    - Có constraint rõ ràng -> ví dụ như: chỉ được đi sang trái hoặc sang phải hoặc 
+    
+Không dùng DP khi:
+    - Cần tìm tất cả solutions
+    - Có cycles trong đồ thị tức là đi được full 4 hướng trái phải trên dưới là một ví dụ cho cycle (do có thể đi lại ô đã gặp)
+
+---
+
+Tối ưu hóa space:
+
+def minPathSum(self, grid: List[List[int]]) -> int:
+    m, n = len(grid), len(grid[0])
+    
+    # Chỉ cần 1 array để lưu hàng hiện tại
+    dp = [float('inf')] * n
+    dp[0] = 0
+    
+    for i in range(m):
+        dp[0] += grid[i][0]  # Cột đầu tiên
+        for j in range(1, n):
+            dp[j] = min(dp[j], dp[j-1]) + grid[i][j]
+    
+    return dp[n-1]

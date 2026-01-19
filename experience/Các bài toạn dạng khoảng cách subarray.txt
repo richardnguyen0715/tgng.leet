@@ -1,0 +1,23 @@
+Các dạng toán này có thể sử dụng stack hoặc map để lưu lại các phần tử min hoặc max của nó.
+
+- Ví dụ như bài toán tìm abs(i - j) <= k với các duplicates numbers
+    -> ta sẽ lưu max của numbers vào trong stack hoặc heap => vì gần nhất mà vẫn không <= k thì các phần tử trước đó coi như vứt đi.
+
+
+# Optimized -> save maximum position of number!!! -> beat 80% time, 50% space
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+
+        position_map = {}
+        n = len(nums)
+
+        for i in range(n):
+            if nums[i] not in position_map:
+                position_map[nums[i]] = i
+            else:
+                if i - position_map[nums[i]] <= k:
+                    return True
+                else:
+                    position_map[nums[i]] = i # Lưu gần tử max - Gần nhất với hiện tại nhất
+            
+        return False
