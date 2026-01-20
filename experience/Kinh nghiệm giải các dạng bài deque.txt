@@ -1,0 +1,190 @@
+Rất tốt 👍
+Dưới đây là **bản tổng hợp “xương sống” kinh nghiệm** cho **dạng Sliding Window + Monotonic Deque (max–min window)** — đọc xong là **không còn bị lạc hướng nữa**.
+
+---
+
+# 🧠 TỔNG HỢP KINH NGHIỆM
+
+## Sliding Window + Monotonic Deque
+
+*(Longest / Shortest subarray với ràng buộc max–min)*
+
+---
+
+## 1️⃣ Nhận diện đúng dạng bài (QUAN TRỌNG NHẤT)
+
+Gặp bài có các dấu hiệu sau ⇒ **nghĩ ngay đến 2 deque**:
+
+* Subarray **liên tục**
+* Có ràng buộc dạng:
+
+  ```text
+  max(window) - min(window) ≤ K
+  ```
+* Hỏi:
+
+  * longest
+  * shortest
+  * count subarrays
+
+📌 Nếu bạn đang:
+
+* so với `nums[left]`
+* hoặc dùng 2 vòng for
+  → **sai hướng**
+
+---
+
+## 2️⃣ Invariant phải thuộc nằm lòng
+
+Trong mọi thời điểm, window `[left, right]` phải thỏa:
+
+```text
+maxDeque[0] = max(window)
+minDeque[0] = min(window)
+```
+
+Và:
+
+```text
+maxDeque[0] - minDeque[0] ≤ limit
+```
+
+👉 Nếu invariant này đúng, bài coi như xong 80%.
+
+---
+
+## 3️⃣ Cách xây 2 monotonic deque (chuẩn)
+
+### Max deque (giảm dần)
+
+```python
+while maxD and nums[right] > maxD[-1]:
+    maxD.pop()
+maxD.append(nums[right])
+```
+
+### Min deque (tăng dần)
+
+```python
+while minD and nums[right] < minD[-1]:
+    minD.pop()
+minD.append(nums[right])
+```
+
+📌 **Chỉ pop từ cuối, chỉ peek ở đầu**
+
+---
+
+## 4️⃣ Khi nào phải co cửa sổ?
+
+```python
+while maxD[0] - minD[0] > limit:
+```
+
+⚠️ **Không dùng `if` — phải là `while`**
+
+Vì:
+
+* có thể cần co **nhiều bước liên tiếp**
+
+---
+
+## 5️⃣ Co `left` đúng cách (rất hay sai)
+
+Khi `left` tăng:
+
+```python
+if nums[left] == maxD[0]:
+    maxD.popleft()
+if nums[left] == minD[0]:
+    minD.popleft()
+left += 1
+```
+
+📌 **Không pop bừa**, chỉ pop nếu giá trị **đúng ở đầu deque**
+
+---
+
+## 6️⃣ Vì sao luôn O(n)? (amortized proof)
+
+Mỗi phần tử:
+
+* được push **1 lần**
+* được pop **1 lần**
+
+👉 Tổng thao tác ≤ `2n`
+
+📌 Không cần lo while lồng nhau
+
+---
+
+## 7️⃣ Những lỗi kinh điển (né gấp)
+
+❌ So với `nums[left]`
+❌ Dùng `abs(nums[i] - nums[j])`
+❌ Rebuild max/min mỗi window
+❌ Heap + lazy delete (TLE)
+❌ Quên pop khi `left` đi qua
+❌ Dùng `if` thay vì `while` khi shrink
+
+---
+
+## 8️⃣ Test case tự check trước khi submit
+
+```text
+[1,10,2,9,3], limit = 3        → zig-zag
+[4,4,4,1000000000,4,4], limit = 0
+[1,2,3,4,5,...], limit = 0
+[5,5,5,5], limit = 0
+```
+
+Nếu pass hết → code đúng 99%.
+
+---
+
+## 9️⃣ Template chuẩn (ghi nhớ)
+
+```python
+left = 0
+for right in range(n):
+    push nums[right] vào maxD
+    push nums[right] vào minD
+
+    while maxD[0] - minD[0] > limit:
+        nếu nums[left] == maxD[0]: pop left
+        nếu nums[left] == minD[0]: pop left
+        left += 1
+
+    update answer
+```
+
+---
+
+## 10️⃣ Các bài cùng “họ” (rất nên luyện)
+
+* Longest Continuous Subarray With Absolute Diff ≤ Limit
+* Sliding Window Maximum
+* Continuous Subarrays (LC 2762)
+* Shortest Subarray with Max-Min ≤ K
+* Daily Temperatures (1 deque)
+* Stock Span (1 deque)
+
+📌 **Hiểu 1 bài → ăn trọn cả họ**
+
+---
+
+## 🎯 Insight cuối (rất quan trọng)
+
+> **Không bao giờ track “distance” giữa 2 phần tử**
+> → chỉ track **max và min của window**
+
+---
+
+Nếu bạn muốn, mình có thể:
+
+* Viết checklist suy nghĩ khi gặp bài mới
+* So sánh với multiset / heap
+* Đưa thêm bài nâng cấp để luyện sâu
+
+Cứ nói 👍
