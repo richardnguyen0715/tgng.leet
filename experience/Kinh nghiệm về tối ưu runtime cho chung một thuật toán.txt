@@ -1,0 +1,54 @@
+Big-O không đủ trong Python => Mặc dù bigO có thể giống nhau nhưng run time là khác nhau
+
+Viết code:
+
+1. đơn giản
+
+2. ít điều kiện gộp
+
+3. ưu tiên len() + break
+    → thường nhanh hơn
+
+---
+
+
+# Time: O(1), Space: O(N) -> Beat: 40% time
+class StockSpanner:
+
+    def __init__(self):
+        self.stack = []  # (price, span)
+        
+    def next(self, price: int) -> int:
+        
+        # Ý tưởng: mỗi lần mà price lớn hơn đỉnh thì pop ra tới khi nhỏ hơn xong +span lên
+        
+        span = 1
+
+        while self.stack and self.stack[-1][0] <= price:
+            span += self.stack.pop()[-1] # get the span
+
+        self.stack.append((price, span))
+        return span
+
+
+
+# Time: O(1), space: O(N) -> beat: 100% time
+class StockSpanner:
+    # Chạy nhanh hơn là do:
+    # len(self.prices) rẻ hơn self.stack and ...
+    # So sánh xảy ra sau khi đã vào vòng -> self.prices[-1][0] > price, còn cách trên thì lần nào cũng so sánh.
+    # self.prices.pop()[1] nhanh hơn self.prices.pop()[-1], vì -1 phải thực hiện thêm phép tính len(tuple) - 1.
+    
+    def __init__(self):
+        self.prices = []        
+
+    def next(self, price: int) -> int:
+        span = 1
+        while len(self.prices):
+            if self.prices[-1][0] > price:
+                break
+            
+            span += self.prices.pop()[1]
+        
+        self.prices.append((price, span))
+        return span
