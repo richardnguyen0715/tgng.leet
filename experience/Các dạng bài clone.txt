@@ -1,0 +1,80 @@
+Mapping is King: Luôn cần dictionary để map original → clone
+Set Early: Set mapping trước khi recursive để tránh infinite loop
+Structure First, Connections Second: Tạo nodes trước, nối sau
+Handle Edge Cases: null, empty, single node
+Choose Right Traversal: DFS cho đơn giản, BFS cho level-order
+Nhớ công thức: Map → Clone → Connect → Return
+
+def clone_structure(root):
+    if not root:
+        return None
+    
+    # Step 1: Initialize mapping
+    original_to_clone = {}
+    
+    # Step 2: Choose traversal method
+    def dfs(node):
+        # Step 3: Check if already cloned
+        if node in original_to_clone:
+            return original_to_clone[node]
+        
+        # Step 4: Create clone
+        clone = Node(node.val)
+        
+        # Step 5: Set mapping IMMEDIATELY
+        original_to_clone[node] = clone
+        
+        # Step 6: Clone all connections
+        for connection in node.get_connections():
+            clone.add_connection(dfs(connection))
+        
+        return clone
+    
+    return dfs(root)
+
+
+# ❌ Shallow copy - share references
+new_list = original_list.copy()
+
+# ✅ Deep copy - independent objects
+new_list = [Node(node.val) for node in original_list]
+
+
+# ❌ Set mapping sau recursive
+def clone(node):
+    new_node = Node(node.val)
+    for neighbor in node.neighbors:
+        new_node.neighbors.append(clone(neighbor))
+    mapping[node] = new_node  # Too late!
+
+# ✅ Set mapping trước recursive
+def clone(node):
+    new_node = Node(node.val)
+    mapping[node] = new_node  # Set early
+    for neighbor in node.neighbors:
+        new_node.neighbors.append(clone(neighbor))
+
+
+--------------------------
+
+# Decision Tree
+if has_cycles:
+    use_mapping = True
+    if prefer_iterative:
+        use_BFS()
+    else:
+        use_DFS()
+else:
+    if multiple_pointers:
+        use_mapping = True
+    else:
+        simple_recursion()
+
+
+
+-----------------------------------------------
+
+Linear (Linked List) → 2-pass hoặc interweaving (thêm vào giữa -> kết nối -> lấy ra: A -> A` -> B -> B` -> C -> C`)
+Cyclic (Graph) → Mapping + DFS/BFS
+Tree (Acyclic) → Simple recursion
+Complex (Multiple pointers) → Mapping required
