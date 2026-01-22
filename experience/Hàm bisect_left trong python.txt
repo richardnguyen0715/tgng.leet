@@ -1,0 +1,2 @@
+- Bisect_left sẽ trả về len(nums) nếu như không tồn lại trong mảng và không có phần tử nào lớn hơn nó.
+    - Nếu có phần tử lớn hơn nó thì check có bằng target không?
