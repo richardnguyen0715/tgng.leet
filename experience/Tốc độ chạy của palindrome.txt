@@ -1,0 +1,15 @@
+
+def isPalindrome(s): # O(N), N = |s|
+
+    # Cài đặt như này thì chạy chậm hơn cách return thẳng -> chứng minh qua bài 241 - shorted palindrome
+    # left = 0
+    # right = len(s) - 1
+    # while left <= right:
+    #     if s[left] != s[right]:
+    #         return False
+    #     left += 1
+    #     right -= 1
+    # return True
+
+    # Cách này chạy nhanh hơn, submit oke
+    return s == s[::-1]
