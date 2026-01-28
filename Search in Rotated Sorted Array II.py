@@ -1,6 +1,10 @@
 from typing import List
 
 
+
+# Time: O(LogN)
+# Space: O(1)
+# Beat: 100% Time, 35% Space
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         n = len(nums)
