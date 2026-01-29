@@ -1,0 +1,8 @@
+-> Có thể chuyển thành list rồi sort lại để so sánh là xong.
+
+
+arrA = list(a)
+arrA.sort() # Return None -> in-place
+arrB = list(b)
+arrB.sort()
+return arrA == arrB
