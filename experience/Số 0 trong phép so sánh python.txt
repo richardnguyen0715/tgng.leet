@@ -1,0 +1,11 @@
+    if val:
+        return val
+    return -1
+
+* Note: Trong python thì số 0 được coi là falsy value do đó nếu so sánh như vậy thì đoạn code trên sẽ return -1 khi val = 0 :))
+
+Nên sửa lại bằng cách:
+
+    if val is not None:
+        return val
+    return -1
