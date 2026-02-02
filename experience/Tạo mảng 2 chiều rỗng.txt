@@ -1,0 +1,4 @@
+res = [[0] * n for _ in range(m)]
+
+
+Không tạo bằng cách: [[0] * n] * m vì se tạo ra reference -> thay đổi sẽ thay đổi cả hàng
