@@ -1,0 +1,24 @@
+Trong ma trận vuông:
+
+chéo chính: main_diag: row - col = constant
+chéo phụ: anti_diag: row + col = constant
+
+-> Kiểm tra có thuộc đường chéo hay không thì lấy row + col hoặc row - col, nếu xuất hiện giống constant thì tức là ô đó nằm trong đường chéo
+
+
+Hàm kiểm tra conflict trong N-Queens với O(1):
+
+        def is_safe(row, col):
+            # Kiểm tra cột
+            if col in cols:
+                return False
+            
+            # Kiểm tra đường chéo chính (row - col = constant)
+            if (row - col) in main_diag:
+                return False
+            
+            # Kiểm tra đường chéo phụ (row + col = constant)
+            if (row + col) in anti_diag:
+                return False
+            
+            return True
