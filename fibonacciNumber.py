@@ -80,3 +80,17 @@ class Solution:
 
         res = mat_pow(A, n - 1)
         return res[0][0]
+    
+    
+    
+class Solution:
+    def fib(self, n: int) -> int:
+
+        dp, dpPrev1, dpPrev2 = 0, 1, 0
+
+        for i in range(2, n + 1):
+            dp = dpPrev1 + dpPrev2
+            dpPrev2 = dpPrev1
+            dpPrev1 = dp
+        
+        return dp

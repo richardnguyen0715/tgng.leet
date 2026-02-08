@@ -4,24 +4,27 @@ from typing import List
 class Solution:
     def rob(self, nums: List[int]) -> int:
         
-        # Time: O(N)
-        # Space: O(N)
-        
-        if not nums:
-            return 0
-        
-        if len(nums) == 1:
-            return nums[0]
+        # dp(i) là số tiền cướp được từ nhà thứ 0 đến nhà thứ i
 
+        # option 1: cướp nhà ith -> res = nums[i] + dp[i-2]
+        # option 2: bỏ qua nhà ith -> res = dp[i-1]
+        # basecase: 0 -> nums[0] - cướp nhà số 0 chắc chắn sẽ ok hơn là ko cưóp vì i = 0 thì chỉ có 2 option nhà; 1 -> max(nums[0], nums[1]), chọn 1 trong 2 nhà, nào lớn thì cướp.
+    
         n = len(nums)
+        if n == 1:
+            return nums[0]
+        
         dp = [0] * n
+
         dp[0] = nums[0]
         dp[1] = max(nums[0], nums[1])
 
         for i in range(2, n):
-            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+            take = nums[i] + dp[i-2]
+            skip = dp[i-1]
+            dp[i] = max(take, skip)
         
-        return dp[-1]
+        return dp[n -1]
     
 
 class Solution:
