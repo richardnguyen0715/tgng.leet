@@ -10,7 +10,7 @@ def solution(y_true, y_pred):
     
     n = len(y_true)
     mse = 0.0
-    grad = 0.0
+    grad = [0.0] * n
     
     for i in range(n): # O(N)
         diff = y_pred[i] - y_true[i]
