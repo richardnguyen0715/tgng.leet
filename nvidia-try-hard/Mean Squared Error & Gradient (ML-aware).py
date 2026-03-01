@@ -1,25 +1,22 @@
 def solution(y_true, y_pred):
     
-    # Time: O(N + N) = O(N)
-    # Space: O(1)
+    # time:
+    # space:
     
-    # Note:
-    # Brute Force? -> one loop? O(N)? -> Maybe ( < 10^3)
-    
-    # Test: no need
     
     n = len(y_true)
-    mse = 0.0
+    
+    squared_error = 0
     grad = [0.0] * n
     
-    for i in range(n): # O(N)
-        diff = y_pred[i] - y_true[i]
-        mse += diff * diff
-        grad[i] = diff
-    
-    mse /= n
+    for i in range(n):
+        cur_error = y_pred[i] - y_true[i]
+        squared_error += cur_error * cur_error
+        grad[i] = cur_error
+        
+    mse = squared_error / n
     factor = 2.0 / n
-    for i in range(n): # O(N)
+    for i in range(n):
         grad[i] *= factor
     
     return mse, grad
