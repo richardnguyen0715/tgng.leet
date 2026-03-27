@@ -1,10 +1,13 @@
 from typing import List
 
-
 class Solution:
     def areSimilar(self, mat: List[List[int]], k: int) -> bool:
         
         m, n = len(mat), len(mat[0])
+
+        if k % n == 0:
+            return True
+
         checkRows = [False] * m
 
         def shiftLeft(row, k):
@@ -25,6 +28,9 @@ class Solution:
                 newRow = shiftLeft(mat[i], k)
             else:
                 newRow = shiftRight(mat[i], k)
+            
+            print("NewRow: ")
+            print(newRow)
 
             if newRow == mat[i]:
                 checkRows[i] = True
