@@ -36,3 +36,25 @@ class Solution:
                 i += 1
                 
         return ans
+    
+import bisect
+
+class Solution:
+    def maxDistance(self, nums1, nums2):
+        ans = 0
+        
+        for i, x in enumerate(nums1):
+            l, r = i, len(nums2) - 1
+            pos = i - 1
+            
+            while l <= r:
+                mid = (l + r) // 2
+                if nums2[mid] >= x:
+                    pos = mid
+                    l = mid + 1
+                else:
+                    r = mid - 1
+                    
+            ans = max(ans, pos - i)
+        
+        return ans
